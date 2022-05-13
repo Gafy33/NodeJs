@@ -1,0 +1,21 @@
+{{#if error}}
+<p>An error had been occured</p>
+{{/if}}
+<form action="/edit/{{product.id}}" method="post">
+    <div class="field">
+        <label for="iname">Product Name</label>
+        <input type="text" id="iname" name="name" value="{{product.name}}" required/>
+    </div>
+    <div class="field">
+        <label for="iqty">Stock quantity</label>
+        <input type="number" id="iqty" name="qty" value="{{product.qty}}" required/>
+    </div>
+    <div class="field">
+        <label for="iqcomment">Description</label>
+        <input type="text" id="icomment" name="description" value="{{product.description}}" required/>
+    </div>
+    <div class="commands">
+        <button type="button" onclick="window.location.href='/'">Cancel</button>
+        <button type="submit">Submit</button>
+    </div>
+</form>

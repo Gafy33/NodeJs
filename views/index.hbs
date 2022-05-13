@@ -1,0 +1,9 @@
+<h1>{{title}}</h1>
+
+<ul class="products">
+  {{#each products}}
+  <li><a href='/{{this.id}}'> {{this.name}} </a> ( {{this.qty}} )</li>
+  {{/each}}
+</ul>
+
+<button onclick="window.location.href='/create'" style="cursor:pointer; padding: 5px 10px;border: none; border-radius: 10px;color:white; background:hsl(0, 0%, 19%);">Create</button>
