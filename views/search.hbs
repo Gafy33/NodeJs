@@ -1,3 +1,6 @@
+<div class="text-sm p-2 bg-slate-200">
+    Recherché par <span class="text-lg"> {{name_search}} </span>
+</div>
 <div class="relative flex flex-grap p-2">
   <div class="w-2/12 p-2">
     <p class="text-sm">Name</p>
@@ -9,7 +12,7 @@
     <p class="text-sm">Description</p>
   </div>
   <div class="w-4/12 p-2 flex flex-row">
-    <button onclick="window.location.href='/create'" class="bg-[#ff2222] p-2" style="cursor:pointer;border: none; border-radius: 10px;color:white;">Create</button>
+    <button onclick="window.location.href='/'" class="bg-[#ff2222] p-2" style="cursor:pointer;border: none; border-radius: 10px;color:white;">Back</button>
     <form class="flex flex-row ml-3" action="/search" method="post">
         <input class="p-2 rounded border" type="text" name="name" placeholder="Rechercher par name">
         <button type="submit" class="bg-violet ml-3 p-2" style="cursor:pointer;border: none; border-radius: 10px;color:white;"> Rechercher </button>
@@ -17,7 +20,7 @@
   </div>
 </div>
 
-{{#each products}}
+  {{#each products}}
 <div class="relative flex flex-grap rounded p-2 mt-1 iq-card">
 
     <div class="w-2/12 p-2">

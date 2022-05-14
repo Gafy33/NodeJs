@@ -1,0 +1,7 @@
+.iq-card {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(226,190,253,0.15),0 8px 16px rgba(226,190,253,0.15);
+}

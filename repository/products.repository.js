@@ -1,78 +1,115 @@
+import Produit from "../models/schema_produits.js";
+
 export class ProductsRepository {
-    index;
-    products = [
-        { id: 1, name: "Cristaline", qty: 50, description: "izdizdj iojdzqiuhdqzgduzqdgqui dguz"},
-        { id: 2, name: "Contrex", qty: 10, description: "izdizdj iojdzqiuhdqzgduzqdgqui dguz"},
-        { id: 3, name: "Hepar", qty: 103, description: "izdizdj iojdzqiuhdqzgduzqdgqui dguz"},
-        { id: 4, name: "Abatilles", qty: 39, description: "izdizdj iojdzqiuhdqzgduzqdgqui dguz"},
-    ];
 
-    constructor() {
-        this.index = this.products.length;
-    };
+    // Constructeur de la classe
+    constructor() {};
 
+    //Permet de retourner tous les produit dans la collection
     get() {
-        //return this.products;
-
-        return new Promise((resolve, _reject) => {
-            resolve(this.products);
+        return new Promise((resolve, reject) => {
+            //resolve(this.products);
+            Produit.find({}, function (err, docs) {
+                if(err)
+                {
+                    reject(err)
+                } else {
+                    docs= docs.map(item=> item.toObject())
+                    resolve(docs)
+                }
+            });
         });
     };
 
+    //Permet de retourner un seul produit dans la collection avec en paramètre l' "id"
     getOne(id){
-        //return this.products.find((p) => p.id === id );
-
-        return new Promise((resolve, _reject) => {
-            resolve(this.products.find((p) => p.id === id ));
+        return new Promise((resolve, reject) => {
+            Produit.findById(id, function (err, doc) {
+                if(err)
+                {
+                    reject(err)
+                } else {
+                    doc= doc.toObject()
+                    resolve(doc)
+                }
+            });
         });
     };
 
+
+    //Permet de créer un nouveau produits dans la collection
     create(product){
-        /*const existing = this.products.find((p) => p.name === product.name);
-        if (existing)
-        {
-            return undefined;
-        }
 
-        const newProduct = {
-        ...product,
-        id: ++this.index
-        };
-        this.products.push(newProduct);
-        return newProduct;*/
+        return new Promise((resolve, reject) => {
 
-        return new Promise((resolve, _reject) => {
+            Produit.create({
+                name: product.name,
+                qty: product.qty,
+                description: product.description,
+                }, (err, doc) => {
+                if (err) { 
+                    reject(err)
+                } else {
+                    resolve(doc);
+                }
+            });
+                
+
             
-            const existing = this.products.find((p) => p.name === product.name);
-            
-            if (existing)
-            {
-                _reject(undefined);
-            }
-
-            const newProduct = {
-                ...product,
-                id: ++this.index
-            };
-            this.products.push(newProduct);
-
-            resolve(newProduct);
         });
     };
 
+    //Permet d'éditer un produit
     edit(product, id){
-        const existing = this.products.find((p) => p.id == id);
 
-        return new Promise((resolve, _reject) => {
+        return new Promise((resolve, reject) => {
 
-            if (existing)
-            {
-                existing.name = product.name;
-                existing.qty = product.qty;
-                existing.description = product.description;
-                
-                resolve(existing);
-            }
+            
+            Produit.findById(id, function (err, doc) {
+                if(err)
+                {
+                    reject(err)
+                } else {
+
+                    doc.name = product.name;
+                    doc.qty = product.qty;
+                    doc.description = product.description;
+                    doc.save();
+
+                    resolve(doc)
+                }
+            });
+        });
+    };
+
+
+    //Permet de supprimer un produit grâce à l' "id"
+    delete(id)
+    {
+        return new Promise((resolve, reject) => {
+            Produit.deleteOne({_id: id}, function (err, doc) {
+                if(err)
+                {
+                    reject(err)
+                } else {
+                    resolve(doc)
+                }
+            });
+        });
+    }
+
+    //renvoie une liste des produits qui correspond à la rechercher demande
+    search(product) {
+        return new Promise((resolve, reject) => {
+            Produit.find({name: { $regex: '.*' + product.name + '.*' }}, function (err, docs) {
+                if(err)
+                {
+                    reject(err)
+                } else {
+                    docs= docs.map(item=> item.toObject())
+                    resolve(docs)
+                }
+            });
         });
     };
 }

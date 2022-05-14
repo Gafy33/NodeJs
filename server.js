@@ -4,6 +4,8 @@ import { ProductsController } from './controllers/products.controller.js';
 import { ProductsRepository } from './repository/products.repository.js';
 import { routes } from "./routes/products.routes.js";
 
+import { connection } from "./db/db.js";
+
 const PORT = process.env.PORT || 3000;
 const TEMPLATING_EXT = '.hbs';
 
@@ -17,7 +19,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-app.use(express.static('./assets'));
+app.use('/assets', express.static('./assets'));
 
 const repository = new ProductsRepository();
 const controller = new ProductsController(repository);
@@ -35,6 +37,8 @@ app.use((error, req, res, next) => {
     res.set('Content-Type', 'application/json');
     res.status(500).json({ error: 'Fatal Server error' })
 });
+
+connection();
 
 app.listen(PORT, () => {
     console.log("Server listening on port", PORT);
